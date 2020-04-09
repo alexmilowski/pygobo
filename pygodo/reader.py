@@ -27,9 +27,11 @@ _NEWLINE: NEWLINE
 """
 
 property_value_grammar = r"""
-property_value: CURIE (ESCAPED_STRING | CURIE) CURIE?
+property_value: (CURIE | URI | NAME ) (ESCAPED_STRING | CURIE | URI ) (CURIE | URI) ? ("{" (URI ("," URI)*)? "}")?
 
-CURIE: ("a".."z"|"A".."Z"|"0".."9"|"."|"-"|"_")+ (":" /([^ \t,\]\\]|\\[^\\]|\\\\)+/)?
+URI.3: ("a".."z"|"A".."Z"|"0".."9"|"."|"-"|"_")+ (":" /([^ \t,\]\\}#]|\\[^\\]|\\\\)+/)? ("#xref=" ESCAPED_STRING)?
+CURIE.2: ("a".."z"|"A".."Z"|"0".."9"|"."|"-"|"_")+ ":" ("a".."z"|"A".."Z"|"0".."9"|"."|"-"|"_")+
+NAME: ("a".."z"|"A".."Z"|"0".."9"|"."|"-"|"_")+
 %import common.ESCAPED_STRING
 %import common.WS
 %ignore WS
@@ -168,10 +170,14 @@ class OBOParser:
          value = property.children[1].value
          if name=='id':
             id = value
+         # TODO: specific parsers
+         pvalue = self._parse_value(name,value)
+         if name=='property_value' and pvalue[0]=='http://purl.obolibrary.org/obo/def':
+            name = 'def'
+            pvalue = tuple([pvalue[1][0]] + list(pvalue[1][2:]))
          if name not in data:
             data[name] = []
-         # TODO: specific parsers
-         data[name].append(self._parse_value(name,value))
+         data[name].append(pvalue)
       return (id,data)
 
 if __name__ == '__main__':
