@@ -27,19 +27,19 @@ _NEWLINE: NEWLINE
 """
 
 property_value_grammar = r"""
-property_value: URI (ESCAPED_STRING | URI) CURIE?
+property_value: CURIE (ESCAPED_STRING | CURIE) CURIE?
 
-URI: ("a".."z"|"A".."Z")+ ":" /([^ \t,\]\\]|\\[^\\]|\\\\)+/
-CURIE: ("a".."z"|"A".."Z"|"0".."9"|"."|"-"|"_")+ ":" ("a".."z"|"A".."Z"|"0".."9"|"."|"-"|"_")+
+CURIE: ("a".."z"|"A".."Z"|"0".."9"|"."|"-"|"_")+ (":" /([^ \t,\]\\]|\\[^\\]|\\\\)+/)?
 %import common.ESCAPED_STRING
 %import common.WS
 %ignore WS
 """
 
 is_a_value_grammar = r"""
-is_a: CURIE "!" VALUE
-CURIE: ("a".."z"|"A".."Z"|"0".."9"|"."|"-"|"_")+ ":" ("a".."z"|"A".."Z"|"0".."9"|"."|"-"|"_")+
+is_a: CURIE ("{" _URI "}")? ("!" VALUE)?
+CURIE: ("a".."z"|"A".."Z"|"0".."9"|"."|"-"|"_")+ (":" ("a".."z"|"A".."Z"|"0".."9"|"."|"-"|"_")+)?
 VALUE: /[^\n\r]+/
+_URI: ("a".."z"|"A".."Z")+ ":" /([^ \t,\]\\}]|\\[^\\]|\\\\)+/
 
 %import common.WS
 %ignore WS
@@ -114,7 +114,10 @@ class OBOParser:
             value = tuple(value)
             if len(value)==1:
                value = value[0]
-            ontology.metadata.get(name)[id] = value
+            properties = ontology.metadata.get(name)
+            if id not in properties:
+               properties[id] = []
+            properties[id].append(value)
       for item in ontology_tree.children[1:]:
          if item.data=='term':
             id, data = self._multidict(item)

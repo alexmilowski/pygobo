@@ -24,9 +24,9 @@ def query_create_ontology(ontology,**options):
       q.write("o.`{name}` = '{value}'".format(name=name,value=cypher_literal(value)))
    properties = ontology.metadata.get('property_value')
    for property in properties.keys() if properties is not None else []:
-      value = properties[property]
+      value = ','.join(map(lambda value: value[0] if type(value)==tuple else value,properties[property]))
       q.write(',\n    ')
-      q.write("o.`{name}` = '{value}'".format(name=property,value=cypher_literal(value[0] if type(value)==tuple else value)))
+      q.write("o.`{name}` = '{value}'".format(name=property,value=cypher_literal(value)))
    q.write('\n')
    subsetdefs = ontology.metadata.get('subsetdef')
    for name in subsetdefs.keys() if subsetdefs is not None else []:
