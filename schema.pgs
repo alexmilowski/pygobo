@@ -1,0 +1,50 @@
+'''
+# Ontology Graph
+
+A property graph for ontologies based on OBO/OWL ontology structures.
+
+'''
+
+(:Ontology {id})
+'''The root of the ontology'''
+.data-version      = 'a version string'
+.date              = datetime 'the creation date of the ontology'
+.default-namespace = 'the default namespace to use for the ontology'
+.format-version    = 'the input format version'
+.ontology          = 'the identifier for the ontology which may be the same as the id'
+.remark            = 'a comment'
+.saved-by          = 'an identification of the process that generated the format'
+-[:subsetdef]->(:Subset) = '''
+A subset of the ontology. Terms identify themselves as member of a subset.
+'''
+-[:term]->(:Term)
+-[:typedef]->(:Typedef)
+
+(:Term {id})
+.name
+.comment
+.created_by
+.creation_date
+.def
+.is_obsolete
+-[:alias]->(:Term)
+-[:def]->(:Resource)
+-[:subset]->(:Subset)
+-[:synonym]->(:XRef)
+-[:xref]->(:XRef)
+-[:is_a]->(:Term)
+-[:disjoint_from]->(:Term)
+
+(:Typedef {id})
+.name
+.def
+-[:def]->(:Resource)
+
+(:Resource {url})
+
+(:Subset {id})
+.description
+
+(:XRef {id})
+.relation
+.related
