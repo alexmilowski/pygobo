@@ -98,3 +98,51 @@ for query in query_generate(ontology,scope=['ontology']):
 
 The `scope` keyword argument is a list of scope values. The values are the
 same as the command-line interface (see above).
+
+
+## Property graph structure
+
+The graph is structured as:
+
+```
+(:Ontology {id:})
+.data-version
+.date
+.default-namespace
+.format-version
+.ontology
+.remark
+.saved-by
+-[:subsetdef]->(:Subset)
+-[:term]->(:Term)
+-[:typedef]->(:Typedef)
+
+(:Term {id:})
+.name
+.comment
+.created_by
+.creation_date
+.def
+.is_obsolete
+-[:alias]->(:Term)
+-[:def]->(:Resource)
+-[:subset]->(:Subset)
+-[:synonym]->(:XRef)
+-[:xref]->(:XRef)
+-[:is_a]->(:Term)
+-[:disjoint_from]->(:Term)
+
+(:Typedef {id:})
+.name
+.def
+-[:def]->(:Resource)
+
+(:Resource {url:})
+
+(:Subset {id:})
+.description
+
+(:XRef {id:})
+.relation
+.related
+```
