@@ -105,7 +105,7 @@ same as the command-line interface (see above).
 The graph is structured as:
 
 ```
-(:Ontology {id:})
+(:Ontology {id})
 .data-version
 .date
 .default-namespace
@@ -117,7 +117,7 @@ The graph is structured as:
 -[:term]->(:Term)
 -[:typedef]->(:Typedef)
 
-(:Term {id:})
+(:Term {id})
 .name
 .comment
 .created_by
@@ -132,17 +132,17 @@ The graph is structured as:
 -[:is_a]->(:Term)
 -[:disjoint_from]->(:Term)
 
-(:Typedef {id:})
+(:Typedef {id})
 .name
 .def
 -[:def]->(:Resource)
 
-(:Resource {url:})
+(:Resource {url})
 
-(:Subset {id:})
+(:Subset {id})
 .description
 
-(:XRef {id:})
+(:XRef {id})
 .relation
 .related
 ```
