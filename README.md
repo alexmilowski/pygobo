@@ -102,7 +102,7 @@ same as the command-line interface (see above).
 
 ## Property graph structure
 
-The graph is structured as:
+The graph is is documented in the schema ([view](schema.md), [source](schema.pgs)).
 
 ```
 (:Ontology {id})
