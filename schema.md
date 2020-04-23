@@ -39,12 +39,12 @@ Keys: id
 
 |Property|Type|Description|
 |--------|----|-----------|
-|comment|string|an identification of the process that generated the format|
-|created_by|string|an identification of the process that generated the format|
-|creation_date|string|an identification of the process that generated the format|
-|def|string|an identification of the process that generated the format|
-|is_obsolete|string|an identification of the process that generated the format|
-|name|string|an identification of the process that generated the format|
+|comment|string||
+|created_by|string||
+|creation_date|string||
+|def|string||
+|is_obsolete|string||
+|name|string||
 
 ## Relations
 
@@ -66,8 +66,8 @@ Keys: id
 
 |Property|Type|Description|
 |--------|----|-----------|
-|def|string|an identification of the process that generated the format|
-|name|string|an identification of the process that generated the format|
+|def|string||
+|name|string||
 
 ## Relations
 
@@ -87,7 +87,7 @@ Keys: id
 
 |Property|Type|Description|
 |--------|----|-----------|
-|description|string|an identification of the process that generated the format|
+|description|string||
 
 # XRef
 
@@ -97,6 +97,6 @@ Keys: id
 
 |Property|Type|Description|
 |--------|----|-----------|
-|related|string|an identification of the process that generated the format|
-|relation|string|an identification of the process that generated the format|
+|related|string||
+|relation|string||
 
