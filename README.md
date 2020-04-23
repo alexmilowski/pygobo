@@ -2,7 +2,7 @@
 Property Graphs library for Open Biological and Biomedical Ontologies (OBO) in
 Python. This library supports reading OBO formatted ontologies into python
 data structures. It also supports generation of cypher statements to load
-the ontology into a property graph database like RedisGraph.
+the ontology into a property graph database like [RedisGraph](https://github.com/RedisGraph/RedisGraph).
 
 ## Installing
 
