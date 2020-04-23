@@ -4,6 +4,14 @@ Python. This library supports reading OBO formatted ontologies into python
 data structures. It also supports generation of cypher statements to load
 the ontology into a property graph database like RedisGraph.
 
+## Installing
+
+You can install the package via:
+
+```sh
+pip install pygobo
+```
+
 ## Using the command-line interface
 
 The module can be invoked directly and provides a set of basic commands that
