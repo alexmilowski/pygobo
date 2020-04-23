@@ -2,7 +2,7 @@ import argparse
 import sys
 import pprint
 
-from pygodo import OBOParser, query_generate
+from pygobo import OBOParser, query_generate
 
 if __name__ == '__main__':
 
