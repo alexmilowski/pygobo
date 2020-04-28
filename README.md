@@ -1,5 +1,5 @@
 # Property Graphs for Open Biological Ontologies
-Property Graphs library for Open Biological and Biomedical Ontologies (OBO) in
+Property Graphs library for [Open Biological and Biomedical Ontologies (OBO)](http://obofoundry.org) in
 Python. This library supports reading OBO formatted ontologies into python
 data structures. It also supports generation of cypher statements to load
 the ontology into a property graph database like [RedisGraph](https://github.com/RedisGraph/RedisGraph).
@@ -60,6 +60,10 @@ they are executed.
 The `--scope` option will limit the loading to a specific aspect of the
 ontology but the order is presumed to be: ontology, term, xref, typedef. If you
 violate this ordering, the cypher statements may fail.
+
+## Formats Supported
+
+The library only currently supprts the OBO formatted ontologies. That is, it can't currently load the OWL/XML format.
 
 ## API
 
