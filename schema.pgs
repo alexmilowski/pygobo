@@ -7,6 +7,7 @@ A property graph for ontologies based on OBO/OWL ontology structures.
 
 (:Ontology {id})
 '''The root of the ontology'''
+.id                = 'an identifier for the ontology in the graph'
 .data-version      = 'a version string'
 .date              = datetime 'the creation date of the ontology'
 .default-namespace = 'the default namespace to use for the ontology'
@@ -17,11 +18,12 @@ A property graph for ontologies based on OBO/OWL ontology structures.
 -[:subsetdef]->(:Subset) = '''
 A subset of the ontology. Terms identify themselves as member of a subset.
 '''
--[:term]->(:Term)
--[:typedef]->(:Typedef)
+-[:term]->(:Term) = 'a term belonging to the ontology'
+-[:typedef]->(:Typedef) = 'a type definition belonging to the ontology'
 
 (:Term {id})
-.name
+.id = 'an identifier for the term in the graph. This is often the same as `name`'
+.name = 'the term identifier in the ontology'
 .comment
 .created_by
 .creation_date
