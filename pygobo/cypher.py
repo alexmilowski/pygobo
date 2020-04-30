@@ -84,7 +84,7 @@ def query_create_term(ontology,term,**options):
    for index, subset in enumerate(term.get('subset',[])):
       q.write("MERGE (t)-[:subset]->(subset{index})\n".format(index=index))
    for index, synonym in enumerate(term.get('synonym',[])):
-      q.write("CREATE (synonym{index}:XRef {{name: '{id}', relation: '{relation}', related: '{targets}'}})\n".format(index=index,id=cypher_literal(synonym[0]),relation=synonym[1],targets=','.join(synonym[2])))
+      q.write("CREATE (synonym{index}:XRef {{name: '{id}', relation: '{relation}', related: '{targets}'}})\n".format(index=index,id=cypher_literal(synonym[0]),relation=','.join(synonym[1]),targets=','.join(synonym[2])))
       q.write("CREATE (t)-[:synonym]->(synonym{index})\n".format(index=index))
    for index, xref in enumerate(term.get('xref',[])):
       q.write("CREATE (xref{index}:XRef {{id: '{id}'}})\n".format(index=index,id=xref))

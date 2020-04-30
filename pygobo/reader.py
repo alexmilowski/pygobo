@@ -48,9 +48,10 @@ _URI: ("a".."z"|"A".."Z")+ ":" /([^ \t,\]\\}]|\\[^\\]|\\\\)+/
 """
 
 def_value_grammar = r"""
-def: ESCAPED_STRING "[" (URI ( "," URI)*)? "]" _COMMENT?
+def: ESCAPED_STRING "[" ( URI NMTOKEN? ( "," URI NMTOKEN? )*)? "]" _COMMENT?
 
-URI: ("a".."z"|"A".."Z")+ ":" /([^ \t,\]\\]|\\[^\\]|\\\\)+/
+URI: ("a".."z"|"A".."Z")+ ":" (/(?!<)([^ \t,\]\\]|\\[^\\]|\\\\)+/ | "<" /[^>]*/ ">" )
+NMTOKEN: "0".."9"+ /[^ ,\]]*/
 _COMMENT: "{" /[^}]+/ "}"
 %import common.ESCAPED_STRING
 %import common.WS
@@ -58,10 +59,11 @@ _COMMENT: "{" /[^}]+/ "}"
 """
 
 synonym_value_grammar = r"""
-synonym: ESCAPED_STRING RELATION "[" (CURIE ("," CURIE)*)? "]"
+synonym: ESCAPED_STRING relations "[" (URI ("," URI)*)? "]"
+relations: RELATION+
 
 RELATION: ("a".."z"|"A".."Z"|"0".."9"|"."|"-"|"_")+
-CURIE: ("a".."z"|"A".."Z"|"0".."9"|"."|"-"|"_")+ ":" ("a".."z"|"A".."Z"|"0".."9"|"."|"-"|"_")+
+URI: ("a".."z"|"A".."Z")+ ":" (/(?!<)([^ \t,\]\\]|\\[^\\]|\\\\)+/ | "<" /[^>]*/ ">" )
 %import common.ESCAPED_STRING
 %import common.WS
 %ignore WS
@@ -151,8 +153,9 @@ class OBOParser:
             value = datetime(dtinfo[2],dtinfo[1],dtinfo[0],dtinfo[3],dtinfo[4]).isoformat()
       elif name=='synonym':
          tree = self.synonym_value_parser.parse(value)
-         description, relation, *curies = list(map(lambda token: unescape_literal(token.value),tree.children))
-         value = (description, relation, curies)
+         description, relations, curies = tree.children[0].value, tree.children[1], list(map(lambda token: unescape_literal(token.value),tree.children[2:]))
+         relations = list(map(lambda token: unescape_literal(token.value),relations.children))
+         value = (description, relations, curies)
       elif name=='property_value':
          property_value_tree = self.property_value_parser.parse(value)
          id, *value = list(map(lambda token: unescape_literal(token.value), property_value_tree.children))
