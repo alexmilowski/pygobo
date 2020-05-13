@@ -4,4 +4,4 @@ from .cypher import query_generate, query_create_ontology, query_create_term, qu
 __all__ = ['Ontology', 'OBOParser',
            'query_generate', 'query_create_ontology', 'query_create_term', 'query_cross_reference_term', 'query_create_typedef']
 
-__version__ = '0.1.1'
+__version__ = '0.2'
