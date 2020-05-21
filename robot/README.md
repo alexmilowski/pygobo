@@ -31,7 +31,11 @@ docker run -it --rm -v /home:`pwd` robot
 
 ## Converting OWL to OBO
 
-1. Download the OWL formatted ontology to your machine:
+Some ontologies are only distributed in OWL format. You can convert these files into OBO format by downloading them and running the robot tool via the docker image.
+
+For examplel, the [Coronavirus Infectious Disease Ontology](http://www.obofoundry.org/ontology/cido.html) is distributed in OWL format. This can be converted by:
+
+1. Download the OWL formatted ontology via curl:
 
     ```sh
     curl -O https://raw.githubusercontent.com/CIDO-ontology/cido/master/src/ontology/cido.owl
@@ -43,4 +47,4 @@ docker run -it --rm -v /home:`pwd` robot
     docker run -it --rm -v `pwd`:/home robot convert --check false --input cido.owl --output cido.obo
     ```
 
-    Note: The `--check` option may or may not be necessary. See the robot documentation for more information.
+Note: The `--check` option may or may not be necessary. See the robot documentation for more information.
