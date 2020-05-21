@@ -65,6 +65,8 @@ violate this ordering, the cypher statements may fail.
 
 The library only currently supprts the OBO formatted ontologies. That is, it can't currently load the OWL/XML format.
 
+You can convert OWL/XML formatted ontologies into OBO format using the [robot tool](robot/README.md).
+
 ## API
 
 ### OBOParser
