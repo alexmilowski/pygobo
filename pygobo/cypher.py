@@ -8,16 +8,18 @@ def query_create_ontology(ontology,**options):
    merge = options.get('merge',True)
    id = options.get('id',ontology.metadata.get('ontology'))
    if merge:
-      q.write("MERGE (o:Ontology {{id: '{id}'}}) ON CREATE\n".format(id=id))
+      q.write("MERGE (o:Ontology {{id: '{id}'}})".format(id=id))
    else:
-      q.write("CREATE (o:Ontology {{id: '{id}'}})\n".format(id=id))
+      q.write("CREATE (o:Ontology {{id: '{id}'}})".format(id=id))
    first = True
    for name in ['data-version','date','default-namespace','format-version','ontology','remark','saved-by']:
       value = ontology.metadata.get(name)
       if value is None:
          continue
       if first:
-         q.write('SET ')
+         if merge:
+            q.write(' ON CREATE')
+         q.write('\nSET ')
          first = False
       else:
          q.write(',\n    ')
@@ -25,7 +27,13 @@ def query_create_ontology(ontology,**options):
    properties = ontology.metadata.get('property_value')
    for property in properties.keys() if properties is not None else []:
       value = ','.join(map(lambda value: value[0] if type(value)==tuple else value,properties[property]))
-      q.write(',\n    ')
+      if first:
+         if merge:
+            q.write(' ON CREATE')
+         q.write('\nSET ')
+         first = False
+      else:
+         q.write(',\n    ')
       q.write("o.`{name}` = '{value}'".format(name=property,value=cypher_literal(value)))
    q.write('\n')
    subsetdefs = ontology.metadata.get('subsetdef')
@@ -43,9 +51,9 @@ def query_create_term(ontology,term,**options):
    for index, subset in enumerate(term.get('subset',[])):
       q.write("MATCH (subset{index}:Subset {{id: '{id}'}})\n".format(index=index,id=subset))
    if merge:
-      q.write("MERGE (t:Term {{id: '{id}'}}) ON CREATE\n".format(id=id))
+      q.write("MERGE (t:Term {{id: '{id}'}})".format(id=id))
    else:
-      q.write("CREATE (t:Term {{id: '{id}'}})\n".format(id=id))
+      q.write("CREATE (t:Term {{id: '{id}'}})".format(id=id))
    first = True
    for name in ['comment','created_by','creation_date','def','is_obsolete','name']:
       value = term.get(name)
@@ -56,7 +64,9 @@ def query_create_term(ontology,term,**options):
       if type(value)==tuple:
          value = value[0]
       if first:
-         q.write('SET ')
+         if merge:
+            q.write(' ON CREATE')
+         q.write('\nSET ')
          first = False
       else:
          q.write(',\n    ')
@@ -92,7 +102,7 @@ def query_create_term(ontology,term,**options):
    return q.getvalue()
 
 def query_cross_reference_term(ontology,term,**options):
-   if 'is_a' not in term or 'disjoint_from' not in term:
+   if 'is_a' not in term and 'disjoint_from' not in term:
       return None
    q = StringIO()
    id = term.get('id')[0]
@@ -114,9 +124,9 @@ def query_create_typedef(ontology,typedef,**options):
    id = typedef.get('id')[0]
    q.write("MATCH (o:Ontology {{id: '{id}'}})\n".format(id=ontology_id))
    if merge:
-      q.write("MERGE (t:Typedef {{id: '{id}'}}) ON CREATE\n".format(id=id))
+      q.write("MERGE (t:Typedef {{id: '{id}'}})".format(id=id))
    else:
-      q.write("CREATE (t:Typedef {{id: '{id}'}})\n".format(id=id))
+      q.write("CREATE (t:Typedef {{id: '{id}'}})".format(id=id))
    first = True
    for name in ['def','name']:
       value = typedef.get(name)
@@ -127,7 +137,9 @@ def query_create_typedef(ontology,typedef,**options):
       if type(value)==tuple:
          value = value[0]
       if first:
-         q.write('SET ')
+         if merge:
+            q.write(' ON CREATE')
+         q.write('\nSET ')
          first = False
       else:
          q.write(',\n    ')
