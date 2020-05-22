@@ -29,7 +29,7 @@ _NEWLINE: NEWLINE
 property_value_grammar = r"""
 property_value: (CURIE | URI | NAME ) (ESCAPED_STRING | CURIE | URI ) (CURIE | URI) ? ("{" (URI ("," URI)*)? "}")?
 
-URI.3: ("a".."z"|"A".."Z"|"0".."9"|"."|"-"|"_")+ (":" /([^ \t,\]\\}#]|\\[^\\]|\\\\)+/)? ("#xref=" ESCAPED_STRING)?
+URI.3: ("a".."z"|"A".."Z"|"0".."9"|"."|"-"|"_")+ (":" /([^ \t,\]\\}#]|\\[^\\]|\\\\)+/)? (/(?!#xref)#[^# ]+/ | "#xref=" ESCAPED_STRING)?
 CURIE.2: ("a".."z"|"A".."Z"|"0".."9"|"."|"-"|"_")+ ":" ("a".."z"|"A".."Z"|"0".."9"|"."|"-"|"_")+
 NAME: ("a".."z"|"A".."Z"|"0".."9"|"."|"-"|"_")+
 %import common.ESCAPED_STRING
