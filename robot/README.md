@@ -9,7 +9,7 @@ toolchain directly.
 You can use my prebuilt version of robot via DockerHub or build it yourself.
 
 
-## Preparing the image
+## Building the image
 
 You can build the docker image for robot by
 ```sh
