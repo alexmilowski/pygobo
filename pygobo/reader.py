@@ -127,6 +127,10 @@ class OBOParser:
             id, data = self._multidict(item)
             if id is not None:
                ontology.terms[id] = data
+               subsetdefs = ontology.metadata['subsetdef']
+               for subset in data.get('subset',[]):
+                  if subset not in subsetdefs:
+                     subsetdefs[subset] = subset
          else:
             id, data = self._multidict(item)
             if id is not None:
